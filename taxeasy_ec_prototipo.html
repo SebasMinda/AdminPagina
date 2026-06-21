@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaxEasy EC - Prototipo Académico</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --primary: #1f6feb;
+      --primary-dark: #174ea6;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --success: #16a34a;
+      --warning: #f59e0b;
+      --danger: #dc2626;
+      --border: #e5e7eb;
+      --soft: #eef5ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), #0f172a);
+      color: white;
+      padding: 48px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      max-width: 780px;
+      margin: 0 auto 22px;
+      font-size: 18px;
+      opacity: 0.95;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.30);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+    }
+
+    nav {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      text-align: center;
+    }
+
+    nav a {
+      color: var(--primary-dark);
+      text-decoration: none;
+      margin: 0 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 28px auto;
+      padding: 0 18px;
+    }
+
+    section {
+      margin-bottom: 28px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+    }
+
+    .card h2 {
+      margin-bottom: 12px;
+      color: #0f172a;
+      font-size: 24px;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: #111827;
+      font-size: 19px;
+    }
+
+    .card p, .card li {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    ul {
+      margin-left: 18px;
+      margin-top: 10px;
+    }
+
+    .highlight {
+      background: var(--soft);
+      border-left: 5px solid var(--primary);
+      padding: 16px;
+      border-radius: 12px;
+      margin-top: 14px;
+    }
+
+    .kpi {
+      font-size: 30px;
+      font-weight: bold;
+      color: var(--primary-dark);
+      margin-bottom: 4px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .tag-danger {
+      background: #fee2e2;
+      color: var(--danger);
+    }
+
+    .tag-success {
+      background: #dcfce7;
+      color: var(--success);
+    }
+
+    .tag-warning {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--border);
+      padding: 12px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f9fafb;
+      color: #111827;
+    }
+
+    td {
+      color: var(--muted);
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 12px;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: var(--primary-dark);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 8px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+    }
+
+    .result-box {
+      background: #f9fafb;
+      border: 1px dashed #cbd5e1;
+      padding: 16px;
+      border-radius: 14px;
+      margin-top: 12px;
+    }
+
+    .chat-box {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 16px;
+      min-height: 160px;
+      border: 1px solid var(--border);
+    }
+
+    .message {
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+    }
+
+    .bot {
+      background: white;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .user {
+      background: var(--primary);
+      color: white;
+      margin-left: 40px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 28px 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .note {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    @media (max-width: 850px) {
+      .grid, .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 32px;
+      }
+
+      nav a {
+        display: inline-block;
+        margin: 5px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <span class="badge">Prototipo académico basado en análisis de tendencias con Python</span>
+    <h1>TaxEasy EC</h1>
+    <p>Plataforma digital para guiar a emprendedores en trámites iniciales del SRI, prevención de estafas y educación tributaria básica.</p>
+    <a href="#simulador" class="btn">Probar simulador</a>
+  </header>
+
+  <nav>
+    <a href="#problema">Problema</a>
+    <a href="#demanda">Demanda</a>
+    <a href="#oferta">Oferta</a>
+    <a href="#costos">Costos</a>
+    <a href="#simulador">Simulador</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+
+  <main>
+
+    <section id="problema" class="card">
+      <h2>1. Tendencia detectada con Python</h2>
+      <p>
+        El notebook de Python analizó noticias recientes del entorno ecuatoriano. Una de las tendencias seleccionadas fue:
+      </p>
+
+      <div class="highlight">
+        <strong>Noticia:</strong> “¿Cómo sacar la clave del SRI por primera vez en Ecuador y qué debe hacer para evitar estafas?”<br>
+        <strong>Fuente:</strong> Primicias<br>
+        <strong>Clima del entorno:</strong> Tensión / Riesgo<br>
+        <strong>Score_IA:</strong> -0.7184
+      </div>
+
+      <p style="margin-top: 14px;">
+        Aunque el resultado tiene un puntaje negativo, representa una oportunidad de emprendimiento porque muestra una necesidad real:
+        muchas personas no entienden los trámites digitales y temen caer en estafas.
+      </p>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h3>Problema</h3>
+        <p>Los emprendedores no siempre saben cómo sacar la clave del SRI, proteger sus datos o reconocer canales oficiales.</p>
+        <span class="tag tag-danger">Riesgo digital</span>
+      </div>
+
+      <div class="card">
+        <h3>Solución</h3>
+        <p>Una plataforma educativa con guías, talleres, chatbot básico y alertas para prevenir estafas.</p>
+        <span class="tag tag-success">Oportunidad</span>
+      </div>
+
+      <div class="card">
+        <h3>Cliente objetivo</h3>
+        <p>Emprendedores, freelancers, estudiantes, pequeños negocios y personas que inician trámites tributarios.</p>
+        <span class="tag tag-warning">Mercado inicial</span>
+      </div>
+    </section>
+
+    <section id="demanda" class="card">
+      <h2>2. Análisis de demanda</h2>
+      <p>
+        La demanda de TaxEasy EC se basa en la necesidad de orientación sencilla y segura para trámites digitales del SRI.
+        El servicio tiene potencial porque muchos pequeños negocios requieren formalizarse, aprender a facturar y evitar fraudes.
+      </p>
+
+      <div class="grid" style="margin-top: 18px;">
+        <div>
+          <div class="kpi">1.000</div>
+          <p>Personas alcanzadas mensualmente por redes sociales.</p>
+        </div>
+        <div>
+          <div class="kpi">150</div>
+          <p>Usuarios interesados en guías o talleres.</p>
+        </div>
+        <div>
+          <div class="kpi">40</div>
+          <p>Usuarios potenciales dispuestos a pagar un servicio inicial.</p>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Segmento</th>
+            <th>Necesidad</th>
+            <th>Servicio recomendado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Emprendedores nuevos</td>
+            <td>Obtener clave SRI y entender trámites básicos</td>
+            <td>Guía paso a paso + taller virtual</td>
+          </tr>
+          <tr>
+            <td>Freelancers</td>
+            <td>Facturar servicios y evitar errores</td>
+            <td>Plantillas + asesoría básica</td>
+          </tr>
+          <tr>
+            <td>Pequeños negocios</td>
+            <td>Capacitarse sin pagar asesorías costosas</td>
+            <td>Plan mensual educativo</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="oferta" class="card">
+      <h2>3. Análisis de oferta</h2>
+      <p>
+        Existen tutoriales, contadores y páginas oficiales, pero muchas opciones son técnicas, costosas o poco claras para principiantes.
+        TaxEasy EC se diferencia por ofrecer una alternativa educativa, económica y fácil de entender.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Oferta existente</th>
+            <th>Limitación</th>
+            <th>Diferenciación de TaxEasy EC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tutoriales gratuitos</td>
+            <td>Pueden estar desactualizados</td>
+            <td>Contenido organizado y actualizado</td>
+          </tr>
+          <tr>
+            <td>Contadores</td>
+            <td>Costos altos para principiantes</td>
+            <td>Servicio básico de bajo costo</td>
+          </tr>
+          <tr>
+            <td>Página oficial</td>
+            <td>Lenguaje técnico</td>
+            <td>Explicación simple y paso a paso</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="costos" class="grid-2">
+      <div class="card">
+        <h2>4. Costos estimados</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Recurso</th>
+              <th>Costo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dominio web</td>
+              <td>$12 anual</td>
+            </tr>
+            <tr>
+              <td>Hosting básico</td>
+              <td>$15 mensual</td>
+            </tr>
+            <tr>
+              <td>Publicidad inicial</td>
+              <td>$20 mensual</td>
+            </tr>
+            <tr>
+              <td>Herramientas IA / automatización</td>
+              <td>$20 mensual</td>
+            </tr>
+            <tr>
+              <td>Mantenimiento básico</td>
+              <td>$20 mensual</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="note">Costo mensual aproximado: entre $55 y $90.</p>
+      </div>
+
+      <div class="card">
+        <h2>5. Precios sugeridos</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Servicio</th>
+              <th>Precio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Guía básica descargable</td>
+              <td>Gratis</td>
+            </tr>
+            <tr>
+              <td>Taller grupal virtual</td>
+              <td>$5</td>
+            </tr>
+            <tr>
+              <td>Paquete premium</td>
+              <td>$8</td>
+            </tr>
+            <tr>
+              <td>Asesoría personalizada</td>
+              <td>$10</td>
+            </tr>
+            <tr>
+              <td>Plan mensual</td>
+              <td>$5</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="note">Modelo freemium: contenido gratuito + servicios pagados.</p>
+      </div>
+    </section>
+
+    <section id="simulador" class="card">
+      <h2>6. Simulador de ingresos del emprendimiento</h2>
+      <p>
+        Modifica los valores para estimar cuánto podría generar TaxEasy EC según la cantidad de usuarios.
+      </p>
+
+      <div class="grid-2" style="margin-top: 14px;">
+        <div>
+          <label>Usuarios en talleres ($5 c/u)</label>
+          <input type="number" id="talleres" value="40" min="0" />
+
+          <label>Paquetes premium ($8 c/u)</label>
+          <input type="number" id="premium" value="25" min="0" />
+
+          <label>Asesorías personalizadas ($10 c/u)</label>
+          <input type="number" id="asesorias" value="15" min="0" />
+
+          <label>Planes mensuales ($5 c/u)</label>
+          <input type="number" id="planes" value="20" min="0" />
+
+          <label>Costos mensuales estimados</label>
+          <input type="number" id="costosMensuales" value="90" min="0" />
+
+          <button class="btn" onclick="calcularIngresos()">Calcular</button>
+        </div>
+
+        <div class="result-box">
+          <h3>Resultado estimado</h3>
+          <p><strong>Ingresos mensuales:</strong> <span id="ingresos">$650</span></p>
+          <p><strong>Costos mensuales:</strong> <span id="costos">$90</span></p>
+          <p><strong>Utilidad estimada:</strong> <span id="utilidad">$560</span></p>
+          <p id="estado" class="tag tag-success">Emprendimiento viable</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <div class="card">
+        <h2>7. Simulador de orientación</h2>
+        <p>Selecciona una duda frecuente para ver una respuesta educativa básica.</p>
+
+        <select id="pregunta">
+          <option value="clave">¿Cómo saco la clave del SRI?</option>
+          <option value="estafa">¿Cómo evito estafas?</option>
+          <option value="ruc">¿Necesito RUC para emprender?</option>
+          <option value="factura">¿Cuándo debo facturar?</option>
+        </select>
+
+        <button class="btn" onclick="responderPregunta()">Consultar</button>
+
+        <div class="chat-box" id="chat">
+          <div class="message bot">
+            Hola, soy el asistente educativo de TaxEasy EC. Elige una pregunta para recibir orientación básica.
+          </div>
+        </div>
+
+        <p class="note">
+          Aviso: este prototipo es académico. Para casos reales se recomienda verificar la información en canales oficiales o con un profesional.
+        </p>
+      </div>
+
+      <div class="card" id="contacto">
+        <h2>8. Registro de interés</h2>
+        <p>Formulario simulado para validar demanda del emprendimiento.</p>
+
+        <label>Nombre</label>
+        <input type="text" placeholder="Ejemplo: Juan Pérez" />
+
+        <label>Tipo de usuario</label>
+        <select>
+          <option>Emprendedor</option>
+          <option>Freelancer</option>
+          <option>Estudiante</option>
+          <option>Pequeño negocio</option>
+        </select>
+
+        <label>Servicio que le interesa</label>
+        <select>
+          <option>Guía gratuita</option>
+          <option>Taller virtual</option>
+          <option>Asesoría personalizada</option>
+          <option>Plan mensual</option>
+        </select>
+
+        <label>Comentario</label>
+        <textarea rows="4" placeholder="Escribe tu necesidad principal..."></textarea>
+
+        <button class="btn" onclick="alert('Registro simulado guardado. Este botón es parte del prototipo académico.')">
+          Enviar interés
+        </button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>9. Conclusión del prototipo</h2>
+      <p>
+        TaxEasy EC transforma una noticia de riesgo en una oportunidad de negocio. El análisis realizado con Python permitió identificar
+        una necesidad del mercado: la orientación segura para trámites tributarios digitales. Este prototipo demuestra cómo la idea puede
+        convertirse en una solución práctica mediante una página web sencilla, servicios digitales y una estimación básica de ingresos.
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    TaxEasy EC © 2026 | Prototipo académico para análisis de demanda con Python
+  </footer>
+
+  <script>
+    function calcularIngresos() {
+      const talleres = Number(document.getElementById("talleres").value) || 0;
+      const premium = Number(document.getElementById("premium").value) || 0;
+      const asesorias = Number(document.getElementById("asesorias").value) || 0;
+      const planes = Number(document.getElementById("planes").value) || 0;
+      const costosMensuales = Number(document.getElementById("costosMensuales").value) || 0;
+
+      const ingresos = (talleres * 5) + (premium * 8) + (asesorias * 10) + (planes * 5);
+      const utilidad = ingresos - costosMensuales;
+
+      document.getElementById("ingresos").textContent = "$" + ingresos.toFixed(2);
+      document.getElementById("costos").textContent = "$" + costosMensuales.toFixed(2);
+      document.getElementById("utilidad").textContent = "$" + utilidad.toFixed(2);
+
+      const estado = document.getElementById("estado");
+      if (utilidad > 0) {
+        estado.textContent = "Emprendimiento viable";
+        estado.className = "tag tag-success";
+      } else if (utilidad === 0) {
+        estado.textContent = "Punto de equilibrio";
+        estado.className = "tag tag-warning";
+      } else {
+        estado.textContent = "No viable con estos valores";
+        estado.className = "tag tag-danger";
+      }
+    }
+
+    function responderPregunta() {
+      const pregunta = document.getElementById("pregunta").value;
+      const chat = document.getElementById("chat");
+      let textoPregunta = "";
+      let respuesta = "";
+
+      if (pregunta === "clave") {
+        textoPregunta = "¿Cómo saco la clave del SRI?";
+        respuesta = "Para obtener la clave del SRI, normalmente se debe ingresar a los canales oficiales, validar datos personales y seguir el proceso indicado. TaxEasy EC ofrecería una guía paso a paso para principiantes.";
+      }
+
+      if (pregunta === "estafa") {
+        textoPregunta = "¿Cómo evito estafas?";
+        respuesta = "Se recomienda no compartir claves, revisar que el sitio sea oficial, evitar enlaces sospechosos y no entregar datos personales por mensajes no verificados.";
+      }
+
+      if (pregunta === "ruc") {
+        textoPregunta = "¿Necesito RUC para emprender?";
+        respuesta = "Depende del tipo de actividad económica. Si una persona vende productos o servicios de manera formal, puede necesitar RUC o un régimen tributario correspondiente.";
+      }
+
+      if (pregunta === "factura") {
+        textoPregunta = "¿Cuándo debo facturar?";
+        respuesta = "Cuando se realiza una actividad económica formal, se debe emitir comprobantes según las obligaciones tributarias correspondientes. TaxEasy EC explicaría estos casos con ejemplos sencillos.";
+      }
+
+      chat.innerHTML += '<div class="message user">' + textoPregunta + '</div>';
+      chat.innerHTML += '<div class="message bot">' + respuesta + '</div>';
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    calcularIngresos();
+  </script>
+
+</body>
+</html>
